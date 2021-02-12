@@ -1,22 +1,24 @@
 sudo: required
+lenguage: generic
+
 services:
   - docker
 
-
 before_install:
-  - docker build -t mmarchett/docker-multiservice -f ./client/Dockerfile.dev ./client
+  - docker build -t mmarchett/multiservice -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true mmarchett/docker-multiservice npm run test -- --coverage
+  - docker run -e CI=true mmarchett/multiservice npm run test -- --coverage
 
 after_success:
-  - docker build -t mmarchett/docker-multiservice-client ./client
-  - docker build -t mmarchett/docker-multiservice-nginx ./nginx
-  - docker build -t mmarchett/docker-multiservice-server ./server
-  - docker build -t mmarchett/docker-multiservice-worker ./worker
+  - docker build -t mmarchett/multiservice-client ./client
+  - docker build -t mmarchett/multiservice-nginx ./nginx
+  - docker build -t mmarchett/multiservice-server ./server
+  - docker build -t mmarchett/multiservice-worker ./worker
 
-  - ECHO "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push mmarchett/docker-multiservice-client:latest
-  - docker push mmarchett/docker-multiservice-nginx:latest
-  - docker push mmarchett/docker-multiservice-server:latest
-  - docker push mmarchett/docker-multiservice-worker:latest
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push mmarchett/multiservice-client
+  - docker push mmarchett/multiservice-nginx
+  - docker push mmarchett/multiservice-server
+  - docker push mmarchett/multiservice-worker
