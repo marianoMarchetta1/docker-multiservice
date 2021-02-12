@@ -16,7 +16,7 @@ after_success:
   - docker build -t mmarchett/docker-multiservice-worker ./worker
 
   - ECHO "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push mmarchett/docker-multiservice-client
-  - docker push mmarchett/docker-multiservice-nginx
-  - docker push mmarchett/docker-multiservice-server
-  - docker push mmarchett/docker-multiservice-worker
+  - docker push mmarchett/docker-multiservice-client:latest
+  - docker push mmarchett/docker-multiservice-nginx:latest
+  - docker push mmarchett/docker-multiservice-server:latest
+  - docker push mmarchett/docker-multiservice-worker:latest
