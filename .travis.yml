@@ -4,7 +4,13 @@ services:
 
 
 before_install:
-  - docker build -t mmarchett/docker-multiservice -f Dockerfile.dev .
+  - docker build -t mmarchett/docker-multiservice -f ./client/Dockerfile.dev ./client
 
 script:
   - docker run -e CI=true mmarchett/docker-multiservice npm run test -- --coverage
+
+after_success:
+  - docker build -t mmarchett/docker-multiservice-client ./client
+  - docker build -t mmarchett/docker-multiservice-nginx ./nginx
+  - docker build -t mmarchett/docker-multiservice-server ./server
+  - docker build -t mmarchett/docker-multiservice-worker ./worker
